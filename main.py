@@ -68,10 +68,10 @@ def callback():
     
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    abr_team_nm = event.message.text.upper()
     send_messages = []
     error_message = TextSendMessage(text=f"{abr_team_nm}の試合が見つかりませんでした。")
 
-    abr_team_nm = event.message.text.upper()
     try:
         team_nm = TEAM_MAP[abr_team_nm]
     except:
