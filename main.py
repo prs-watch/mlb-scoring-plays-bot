@@ -69,9 +69,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     send_messages = []
+    error_message = TextSendMessage(text=f"{abr_team_nm}の試合が見つかりませんでした。")
 
     abr_team_nm = event.message.text.upper()
-    team_nm = TEAM_MAP[abr_team_nm]
+    try:
+        team_nm = TEAM_MAP[abr_team_nm]
+    except:
+        bot.reply_message(
+            event.reply_token, error_message
+        )
+        return
     games = statsapi.schedule()
     for game in games:
         home = game["home_name"]
@@ -91,7 +98,6 @@ def handle_message(event):
             event.reply_token, send_messages
         )
     else:
-        error_message = TextSendMessage(text=f"{abr_team_nm}の試合が見つかりませんでした。")
         bot.reply_message(
             event.reply_token, error_message
         )
