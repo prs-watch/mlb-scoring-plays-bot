@@ -86,10 +86,15 @@ def handle_message(event):
             scoring_plays = statsapi.game_scoring_plays(game_id)
             if scoring_plays != "":
                 send_messages.append(TextSendMessage(text=scoring_plays))
-    
-    bot.reply_message(
-        event.reply_token, send_messages
-    )
+    if len(send_messages) != 0:
+        bot.reply_message(
+            event.reply_token, send_messages
+        )
+    else:
+        error_message = TextSendMessage(text=f"{abr_team_nm}の試合が見つかりませんでした。")
+        bot.reply_message(
+            event.reply_token, error_message
+        )
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
