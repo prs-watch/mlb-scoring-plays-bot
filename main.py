@@ -8,7 +8,7 @@ import statsapi
 import textwrap
 
 """
-MLB Scoreboard Bot process.
+MLB Scoring Plays Bot process.
 """
 
 # flask
@@ -70,7 +70,7 @@ def callback():
 def handle_message(event):
     send_messages = []
 
-    abr_team_nm = event.message.text
+    abr_team_nm = event.message.text.upper()
     team_nm = TEAM_MAP[abr_team_nm]
     games = statsapi.schedule()
     for game in games:
